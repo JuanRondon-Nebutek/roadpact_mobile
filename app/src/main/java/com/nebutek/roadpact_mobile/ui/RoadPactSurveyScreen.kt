@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.nebutek.roadpact_mobile.logging.LogTags
 import com.nebutek.roadpact_mobile.logging.RoadPactLogger
+import com.nebutek.roadpact_mobile.webview.RoadPactWebChromeClient
 import com.nebutek.roadpact_mobile.webview.RoadPactWebViewClient
 import com.nebutek.roadpact_mobile.webview.SurveyCompleteSignal
 import kotlinx.coroutines.launch
@@ -50,6 +51,7 @@ fun RoadPactSurveyScreen(
     var pageError by remember(loadUrl) { mutableStateOf<String?>(null) }
 
     val latestOnSurveyComplete by rememberUpdatedState(onSurveyComplete)
+    val webChromeClient = remember(logger) { RoadPactWebChromeClient(logger) }
     val webViewClient = remember(logger, loadUrl) {
         RoadPactWebViewClient(
             logger = logger,
@@ -115,6 +117,7 @@ fun RoadPactSurveyScreen(
                 RoadPactWebView(
                     loadUrl = loadUrl,
                     webViewClient = webViewClient,
+                    webChromeClient = webChromeClient,
                     modifier = Modifier.fillMaxSize(),
                 )
             }

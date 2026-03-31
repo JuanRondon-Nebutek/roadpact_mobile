@@ -18,6 +18,7 @@ class BurstDemoRoadPactUrlStrategy : SurveyEntryUrlStrategy {
             .scheme(HTTPS)
             .authority(ROADPACT_HOST)
             .appendPath("burst-demo-roadpact")
+            .appendPath("")
         builder.appendQueryParameter("driver_id", params.driverId)
         builder.appendQueryParameter("tenant_id", params.tenantId)
         builder.appendQueryParameter("survey_id", params.surveyId)
