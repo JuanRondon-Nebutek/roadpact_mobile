@@ -1,8 +1,8 @@
 package com.nebutek.roadpact_mobile.launch
 
 /**
- * Valores de prueba cuando no hay deep link de Platform Science.
- * IDs de ejemplo tomados de la URL demo; campos no presentes usan "0000".
+ * Test values when there is no Platform Science deep link.
+ * Example IDs taken from the demo URL; missing fields use "0000".
  */
 object SurveyLaunchDefaults {
     const val TENANT_ID: String = "69b16c7d92ba492eac0f3799"

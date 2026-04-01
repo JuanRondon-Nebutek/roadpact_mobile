@@ -10,7 +10,7 @@ private const val HTTPS = "https"
 private const val ROADPACT_HOST = "app.roadpact.com"
 
 /**
- * Demo actual: query params en /burst-demo-roadpact/
+ * Current demo: query params on /burst-demo-roadpact/
  */
 class BurstDemoRoadPactUrlStrategy : SurveyEntryUrlStrategy {
     override fun buildUrl(params: SurveyLaunchParams): String {
@@ -34,7 +34,7 @@ class BurstDemoRoadPactUrlStrategy : SurveyEntryUrlStrategy {
 }
 
 /**
- * Producción handoff: /ps-survey/{tenant_id}/{survey_id}?...
+ * Production handoff: /ps-survey/{tenant_id}/{survey_id}?...
  */
 class PsSurveyRoadPactUrlStrategy : SurveyEntryUrlStrategy {
     override fun buildUrl(params: SurveyLaunchParams): String {

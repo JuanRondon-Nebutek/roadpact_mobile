@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -75,7 +75,7 @@ fun RoadPactSurveyScreen(
         val err = pageError ?: return@LaunchedEffect
         scope.launch {
             snackbarHostState.showSnackbar(
-                message = "Error al cargar: $err",
+                message = "Failed to load: $err",
                 withDismissAction = true,
             )
         }
@@ -99,8 +99,8 @@ fun RoadPactSurveyScreen(
                 navigationIcon = {
                     IconButton(onClick = onCloseClick) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Cerrar",
+                            imageVector = Icons.Filled.Close,
+                            contentDescription = "Close",
                         )
                     }
                 },

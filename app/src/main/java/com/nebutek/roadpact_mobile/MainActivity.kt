@@ -6,8 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,7 +31,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         logger.d(
             LogTags.LAUNCH,
-            "MainActivity onCreate — si la app cierra sola, buscar en Logcat líneas RoadPact:WebView (Survey complete / roadpact) o AndroidRuntime (crash)",
+            "MainActivity onCreate — if the app closes on its own, check Logcat for RoadPact:WebView (Survey complete / roadpact) or AndroidRuntime (crash)",
         )
         loadUrlState.value = resolveAndBuildUrl(intent)
         enableEdgeToEdge()
@@ -47,18 +45,16 @@ class MainActivity : ComponentActivity() {
                 }
             }
             Roadpact_mobileTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    RoadPactSurveyScreen(
-                        loadUrl = loadUrl,
-                        logger = roadPactLogger,
-                        onSurveyComplete = onSurveyComplete,
-                        onCloseClick = { finish() },
-                        surveyCompletionError = surveyError,
-                        onSurveyCompletionErrorConsumed = { surveyCompletionErrorMessage.value = null },
-                        onFinishAfterSurveyError = { finish() },
-                        modifier = Modifier.padding(innerPadding),
-                    )
-                }
+                RoadPactSurveyScreen(
+                    loadUrl = loadUrl,
+                    logger = roadPactLogger,
+                    onSurveyComplete = onSurveyComplete,
+                    onCloseClick = { finish() },
+                    surveyCompletionError = surveyError,
+                    onSurveyCompletionErrorConsumed = { surveyCompletionErrorMessage.value = null },
+                    onFinishAfterSurveyError = { finish() },
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
         }
     }
@@ -75,7 +71,7 @@ class MainActivity : ComponentActivity() {
                 when (val parsed = RoadPactDeepLinkParser.parse(intent)) {
                     is DeepLinkParseResult.Success -> parsed.params
                     is DeepLinkParseResult.Failure -> {
-                        logger.w(LogTags.LAUNCH, "Deep link inválido: ${parsed.reason}; usando valores por defecto")
+                        logger.w(LogTags.LAUNCH, "Invalid deep link: ${parsed.reason}; using defaults")
                         SurveyLaunchParams.fromDefaults()
                     }
                 }
@@ -85,9 +81,9 @@ class MainActivity : ComponentActivity() {
         val url = RoadPactUrlBuilder.build(params)
         logger.i(
             LogTags.LAUNCH,
-            "Carga encuesta tenant=${logger.redactId(params.tenantId)} survey=${logger.redactId(params.surveyId)}",
+            "Loading survey tenant=${logger.redactId(params.tenantId)} survey=${logger.redactId(params.surveyId)}",
         )
-        logger.d(LogTags.LAUNCH, "URL (sin secretos): ${url.take(160)}")
+        logger.d(LogTags.LAUNCH, "URL (no secrets): ${url.take(160)}")
         return url
     }
 
@@ -95,27 +91,27 @@ class MainActivity : ComponentActivity() {
         val status = signal.status.trim().lowercase()
         when {
             status == "success" -> {
-                logger.i(LogTags.LAUNCH, "Encuesta completada (status=success)")
+                logger.i(LogTags.LAUNCH, "Survey completed (status=success)")
                 finish()
             }
             status == "error" -> {
                 val message = buildString {
-                    append("La encuesta terminó con error")
+                    append("The survey ended with an error")
                     if (!signal.reason.isNullOrBlank()) append(": ${signal.reason}")
                 }
-                logger.w(LogTags.LAUNCH, "Encuesta error reason=${signal.reason}")
+                logger.w(LogTags.LAUNCH, "Survey error reason=${signal.reason}")
                 surveyCompletionErrorMessage.value = message
             }
             status.isEmpty() -> {
                 logger.w(
                     LogTags.LAUNCH,
-                    "Callback roadpact://survey-complete sin parámetro status; no se cierra la actividad (revisar integración web)",
+                    "roadpact://survey-complete callback without status parameter; activity not closed (check web integration)",
                 )
             }
             else -> {
                 logger.w(
                     LogTags.LAUNCH,
-                    "Callback survey-complete con status desconocido: $status; no se cierra la actividad",
+                    "survey-complete callback with unknown status: $status; activity not closed",
                 )
             }
         }

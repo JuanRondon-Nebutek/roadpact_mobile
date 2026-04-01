@@ -1,5 +1,7 @@
 package com.nebutek.roadpact_mobile.ui
 
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -17,6 +19,10 @@ fun RoadPactWebView(
     AndroidView(
         factory = { context ->
             WebView(context).apply {
+                layoutParams = FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                )
                 this.webViewClient = webViewClient
                 this.webChromeClient = webChromeClient
                 settings.javaScriptEnabled = true

@@ -72,7 +72,7 @@ class RoadPactWebViewClient(
         val hasQuery = !uri.query.isNullOrEmpty()
         logger.w(
             LogTags.WEBVIEW,
-            "roadpact distinto de survey-complete: host=${host.take(24)}… hasQuery=$hasQuery — URL consumida (evita relanzar actividad)",
+            "roadpact URL other than survey-complete: host=${host.take(24)}… hasQuery=$hasQuery — URL consumed (avoids relaunching activity)",
         )
         return true
     }
